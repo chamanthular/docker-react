@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    build: 
+      context: .
+      # Location of docker file in webservice
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+    # Donot map this folde in container to any local container
+      - /app/node_modules
+      # map current pwd to /app in container
+      - .:/app
+  tests:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    # Ability to override startup command 
+    command: ["npm","run","test"]
